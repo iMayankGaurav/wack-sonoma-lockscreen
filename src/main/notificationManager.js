@@ -512,7 +512,8 @@ export class NotificationManager {
 
     teardownNotifBlur() {
         const nb = this._notifBox;
-        if (nb) {
+        const dialogGone = this._extension?._dialogDestroyed;
+        if (nb && !dialogGone) {
             nb.opacity = 255;
 
             if (nb._notificationBox) {
@@ -545,8 +546,10 @@ export class NotificationManager {
             this._playerActorIds.clear();
 
         if (this._cardVisSignalIds) {
-            for (const [actor, id] of this._cardVisSignalIds.entries())
-                actor.disconnect(id);
+            if (!dialogGone) {
+                for (const [actor, id] of this._cardVisSignalIds.entries())
+                    actor.disconnect(id);
+            }
             this._cardVisSignalIds.clear();
         }
 
