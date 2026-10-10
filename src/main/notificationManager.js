@@ -69,6 +69,30 @@ export class NotificationManager {
         actor.set_style(style ? `${baseStyle} ${style}` : baseStyle);
     }
 
+    updateCardTransition(progress) {
+        const nb = this._notifBox;
+        if (!nb) return;
+
+        const vs = this._promptColor?.visualState ?? this._promptColor;
+        const isInv = this._useInverse || (vs?.useInverse ?? vs?.isBrightSample ?? false);
+        if (!isInv) return;
+
+        const { style } = getNotifCardBackground(this._promptColor, this._useInverse, progress);
+        const baseStyle = `border-radius: ${NOTIF_CARD_RADIUS}px;`;
+        const finalStyle = style ? `${baseStyle} ${style}` : baseStyle;
+
+        const children = nb._notificationBox?.get_children() ?? [];
+        for (const child of children) {
+            child.set_style(finalStyle);
+        }
+
+        if (nb._players) {
+            for (const msg of nb._players.values()) {
+                msg.set_style(finalStyle);
+            }
+        }
+    }
+
     _addCardBlur(actor) {
         if (!actor.get_effect(NOTIF_BLUR_NAME)) {
             actor.add_effect(this._makeCardBlur());

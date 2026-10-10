@@ -706,7 +706,7 @@ export function getPromptDimVeilAlpha(visualStateOrLightness) {
  * @param {boolean} [useInverse=false]
  * @returns {{style: string, isInverseClass: boolean}}
  */
-export function getNotifCardBackground(color, useInverse = false) {
+export function getNotifCardBackground(color, useInverse = false, progress = 0) {
     if (!color) {
         return { style: '', isInverseClass: useInverse };
     }
@@ -721,6 +721,9 @@ export function getNotifCardBackground(color, useInverse = false) {
     const noise = vs.noise ?? 0.0;
     const clampedL = clamp01(pL);
 
+    // Crossfade factor: t = 1 at progress = 0 (full inverse), t = 0 at progress = 1 (inverse crossfaded out)
+    const t = Math.max(0, Math.min(1, 1 - progress));
+
     if (isInv && isBrightHue && darkened && darkened.r != null) {
         let alpha = 0.58 + 0.12 * clampedL;
         if (noise > 0.0) {
@@ -728,22 +731,37 @@ export function getNotifCardBackground(color, useInverse = false) {
         }
         alpha = clamp01(Math.max(0.55, Math.min(0.70, alpha)));
 
+        // Non-inverse card background in stylesheet.css is rgba(255, 255, 255, 0.1125)
+        const baseR = 255, baseG = 255, baseB = 255, baseA = 0.1125;
+        const curR = Math.round(baseR + (darkened.r - baseR) * t);
+        const curG = Math.round(baseG + (darkened.g - baseG) * t);
+        const curB = Math.round(baseB + (darkened.b - baseB) * t);
+        const curA = baseA + (alpha - baseA) * t;
+
         return {
-            style: `background-color: rgba(${darkened.r}, ${darkened.g}, ${darkened.b}, ${alpha.toFixed(3)}) !important;`,
+            style: `background-color: rgba(${curR}, ${curG}, ${curB}, ${curA.toFixed(3)}) !important;`,
             isInverseClass: false,
         };
     } else if (isInv) {
         let blendAlpha = vs.overlay?.alpha ?? vs.blendAlpha;
         if (blendAlpha == null) {
-            const t = clamp01((clampedL - PROMPT_BRIGHT_HUE_LIGHTNESS_THRESHOLD) / (1.0 - PROMPT_BRIGHT_HUE_LIGHTNESS_THRESHOLD));
-            blendAlpha = PROMPT_INVERSE_ALPHA_CEILING * t;
+            const ratio = clamp01((clampedL - PROMPT_BRIGHT_HUE_LIGHTNESS_THRESHOLD) / (1.0 - PROMPT_BRIGHT_HUE_LIGHTNESS_THRESHOLD));
+            blendAlpha = PROMPT_INVERSE_ALPHA_CEILING * ratio;
         }
         let darkAlpha = Math.max(0.04, Math.min(PROMPT_INVERSE_ALPHA_CEILING, blendAlpha));
         if (noise > 0.0) {
             darkAlpha += Math.min(0.02, noise * 1.0);
         }
+
+        // Neutral inverse (rgba(0, 0, 0, darkAlpha)) crossfades to non-inverse
+        const baseR = 255, baseG = 255, baseB = 255, baseA = 0.1125;
+        const curR = Math.round(baseR + (0 - baseR) * t);
+        const curG = Math.round(baseG + (0 - baseG) * t);
+        const curB = Math.round(baseB + (0 - baseB) * t);
+        const curA = baseA + (darkAlpha - baseA) * t;
+
         return {
-            style: `background-color: rgba(0, 0, 0, ${darkAlpha.toFixed(3)}) !important;`,
+            style: `background-color: rgba(${curR}, ${curG}, ${curB}, ${curA.toFixed(3)}) !important;`,
             isInverseClass: false,
         };
     }

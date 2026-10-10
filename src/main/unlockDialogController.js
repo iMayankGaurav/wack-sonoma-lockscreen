@@ -323,6 +323,10 @@ export class UnlockDialogController {
                 }
             }
 
+            if (!isCupertino && this._extension._notifManager) {
+                this._extension._notifManager.updateCardTransition(progress);
+            }
+
             const notifOpacity = hasNotifs ? Math.round(255 * (1 - progress)) : 0;
             const hintContainer = this._extension._clockLayoutManager?.hintContainer;
 
