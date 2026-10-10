@@ -22,7 +22,7 @@ import { WackLayout } from './src/main/layoutManager.js';
 import { NotificationManager } from './src/main/notificationManager.js';
 import {
     PROMPT_BLUR_RADIUS,
-    PROMPT_BLUR_BRIGHTNESS,
+    BACKGROUND_BLURRING_BRIGHTNESS,
     CUPERTINO_UNLOCK_FADE_DURATION,
     CROSSFADE_SPEED_SLOW,
     CROSSFADE_SPEED_FAST,
@@ -315,7 +315,7 @@ export default class WackLockscreenClockExtension extends Extension {
             const isCupertino = this._lockscreenMode === 'cupertino';
             const scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
             const targetRadius = isCupertino ? 0 : PROMPT_BLUR_RADIUS * scaleFactor * progress;
-            const targetBrightness = isCupertino ? 1.0 : 1.0 - (1.0 - PROMPT_BLUR_BRIGHTNESS) * progress;
+            const targetBrightness = isCupertino ? 1.0 : 1.0 - (1.0 - BACKGROUND_BLURRING_BRIGHTNESS) * progress;
 
             for (const widget of this._dialog?._backgroundGroup ?? []) {
                 const effect = widget.get_effect('blur');

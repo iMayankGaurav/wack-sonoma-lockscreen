@@ -640,27 +640,27 @@ export function sampleSolidGradientPromptColors({
     );
     const sampledA11yColor = applyPromptVisualState(
         rawA11y,
-        promptVisualState,
+        resolvePromptVisualState(rawA11y, whiteBlendAlpha),
         { preblend: true }
     );
     const sampledSessionColor = applyPromptVisualState(
         rawSession,
-        promptVisualState,
+        resolvePromptVisualState(rawSession, whiteBlendAlpha),
         { preblend: true }
     );
     const sampledSuspendColor = applyPromptVisualState(
         rawSuspend,
-        promptVisualState,
+        resolvePromptVisualState(rawSuspend, whiteBlendAlpha),
         { preblend: true }
     );
     const sampledRestartColor = applyPromptVisualState(
         rawRestart,
-        promptVisualState,
+        resolvePromptVisualState(rawRestart, whiteBlendAlpha),
         { preblend: true }
     );
     const sampledPowerOffColor = applyPromptVisualState(
         rawPowerOff,
-        promptVisualState,
+        resolvePromptVisualState(rawPowerOff, whiteBlendAlpha),
         { preblend: true }
     );
 
@@ -736,7 +736,7 @@ export function sampleWallpaperChromeColors({
     const rawA11y = (a11yMappedBounds ? sampleRegionAverageColor(pixbuf, a11yMappedBounds) : null) || fallback;
     const sampledA11yColor = applyPromptVisualState(
         rawA11y,
-        effectivePromptVisualState,
+        resolvePromptVisualState(rawA11y, whiteBlendAlpha),
         { preblend: true }
     );
 
@@ -744,7 +744,7 @@ export function sampleWallpaperChromeColors({
     const rawSession = (sessionMappedBounds ? sampleRegionAverageColor(pixbuf, sessionMappedBounds) : null) || fallback;
     const sampledSessionColor = applyPromptVisualState(
         rawSession,
-        effectivePromptVisualState,
+        resolvePromptVisualState(rawSession, whiteBlendAlpha),
         { preblend: true }
     );
 
@@ -752,7 +752,7 @@ export function sampleWallpaperChromeColors({
     const rawSuspend = (suspendMappedBounds ? sampleRegionAverageColor(pixbuf, suspendMappedBounds) : null) || fallback;
     const sampledSuspendColor = applyPromptVisualState(
         rawSuspend,
-        effectivePromptVisualState,
+        resolvePromptVisualState(rawSuspend, whiteBlendAlpha),
         { preblend: true }
     );
 
@@ -760,7 +760,7 @@ export function sampleWallpaperChromeColors({
     const rawRestart = (restartMappedBounds ? sampleRegionAverageColor(pixbuf, restartMappedBounds) : null) || fallback;
     const sampledRestartColor = applyPromptVisualState(
         rawRestart,
-        effectivePromptVisualState,
+        resolvePromptVisualState(rawRestart, whiteBlendAlpha),
         { preblend: true }
     );
 
@@ -768,7 +768,7 @@ export function sampleWallpaperChromeColors({
     const rawPowerOff = (powerOffMappedBounds ? sampleRegionAverageColor(pixbuf, powerOffMappedBounds) : null) || fallback;
     const sampledPowerOffColor = applyPromptVisualState(
         rawPowerOff,
-        effectivePromptVisualState,
+        resolvePromptVisualState(rawPowerOff, whiteBlendAlpha),
         { preblend: true }
     );
 

@@ -4,7 +4,7 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {
     PROMPT_BLUR_RADIUS,
-    PROMPT_BLUR_BRIGHTNESS,
+    BACKGROUND_BLURRING_BRIGHTNESS,
 } from '../main/constants.js';
 import { _log, GDM_CROSSFADE_DURATION } from './gdmUtils.js';
 import { GdmThemeStore, GdmWallpaperView } from './gdmThemePipeline.js';
@@ -195,7 +195,7 @@ export class GdmWallpaperManager {
 
         const scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         const radius = active ? PROMPT_BLUR_RADIUS * scaleFactor : 0;
-        const brightness = active ? PROMPT_BLUR_BRIGHTNESS : 1.0;
+        const brightness = active ? BACKGROUND_BLURRING_BRIGHTNESS : 1.0;
         this.view.setPromptBlur(radius, brightness, animate, GDM_CROSSFADE_DURATION);
     }
 

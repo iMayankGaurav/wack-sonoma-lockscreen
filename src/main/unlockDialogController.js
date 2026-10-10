@@ -4,7 +4,7 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {
     PROMPT_BLUR_RADIUS,
-    PROMPT_BLUR_BRIGHTNESS,
+    BACKGROUND_BLURRING_BRIGHTNESS,
     NOTIF_BLUR_RADIUS,
     NOTIF_BLUR_NAME,
     CUPERTINO_UNLOCK_PANEL_FADE,
@@ -293,7 +293,7 @@ export class UnlockDialogController {
             const scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
             const isCupertino = this._extension._lockscreenMode === 'cupertino';
             const globalBlur = isCupertino ? 0 : PROMPT_BLUR_RADIUS * scaleFactor * progress;
-            const globalBrightness = isCupertino ? 1.0 : 1.0 - (1.0 - PROMPT_BLUR_BRIGHTNESS) * progress;
+            const globalBrightness = isCupertino ? 1.0 : 1.0 - (1.0 - BACKGROUND_BLURRING_BRIGHTNESS) * progress;
 
             for (const widget of dialog._backgroundGroup ?? []) {
                 const effect = widget.get_effect('blur');
