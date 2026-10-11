@@ -220,7 +220,7 @@ export class PromptStyling {
                     shadowStyle = ` box-shadow: 0 2px 24px rgba(0, 0, 0, ${color.shadowAlpha.toFixed(3)}) !important;`;
             } else {
                 const sAlpha = color.shadowAlpha !== undefined ? (color.shadowAlpha * (1.0 - veilAlpha)).toFixed(3) : '0';
-                shadowStyle = ` box-shadow: 0 2px 24px rgba(0, 0, 0, ${sAlpha}), inset 0 0 80px rgba(0, 0, 0, ${veilAlpha.toFixed(3)}) !important;`;
+                shadowStyle = ` box-shadow: 0 2px 24px rgba(0, 0, 0, ${sAlpha}), inset 0 0 200px rgba(0, 0, 0, ${veilAlpha.toFixed(3)}) !important;`;
             }
             bgStyle = ` background-color: transparent !important; background-gradient-direction: none !important; background-image: url("${imageUri}") !important; background-size: cover !important; background-position: center !important; background-repeat: no-repeat !important; border: none !important;`;
         } else {
