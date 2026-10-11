@@ -81,14 +81,17 @@ export class NotificationManager {
         const baseStyle = `border-radius: ${NOTIF_CARD_RADIUS}px;`;
         const finalStyle = style ? `${baseStyle} ${style}` : baseStyle;
 
-        const children = nb._notificationBox?.get_children() ?? [];
-        for (const child of children) {
-            child.set_style(finalStyle);
+        if (nb._notificationBox) {
+            for (let child = nb._notificationBox.get_first_child(); child !== null; child = child.get_next_sibling()) {
+                if (child.set_style)
+                    child.set_style(finalStyle);
+            }
         }
 
         if (nb._players) {
             for (const msg of nb._players.values()) {
-                msg.set_style(finalStyle);
+                if (msg && msg.set_style)
+                    msg.set_style(finalStyle);
             }
         }
     }
