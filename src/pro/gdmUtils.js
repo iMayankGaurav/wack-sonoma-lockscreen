@@ -52,8 +52,9 @@ export function resolveGdmAccessibleUri(meta) {
 }
 
 // GDM mode positioning and transitions
-export const GDM_USER_STACK_VERTICAL_FRACTION_WITH_CSA = 1.08; // User selection list bottom anchor Y with CSA
-export const GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA = 1.04;   // User selection list bottom anchor Y without CSA
+export const GDM_USER_STACK_VERTICAL_FRACTION_WITH_CSA = 1.08;         // User selection list bottom anchor Y with CSA
+export const GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA = 1.04;           // User selection list bottom anchor Y without CSA
+export const GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA_SINGLE_USER = 0.9775; // User selection list bottom anchor Y without CSA (single user)
 export const GDM_USER_LIST_CAP_WITH_CSA = 3;                   // Max visible accounts before scrolling with CSA
 export const GDM_USER_LIST_CAP_NO_CSA = 4;                     // Max visible accounts before scrolling without CSA
 export const GDM_DATETIME_TOP_FRACTION = 0.09; // Date/Time offset from the top (percentage of screen height)

@@ -3,6 +3,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {
     GDM_USER_STACK_VERTICAL_FRACTION_WITH_CSA,
     GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA,
+    GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA_SINGLE_USER,
     GDM_USER_LIST_CAP_WITH_CSA,
     GDM_USER_LIST_CAP_NO_CSA,
     userListItems,
@@ -34,9 +35,13 @@ export class GdmUserListManager {
             if (h <= 0) h = Main.layoutManager.primaryMonitor.height;
         }
         const hasCsa = Boolean(this._gdm._powerButtons?.actor?.visible);
+        const userList = dialog._userList;
+        const isSingleUser = userListItems(userList).length <= 1;
         const fraction = hasCsa
             ? GDM_USER_STACK_VERTICAL_FRACTION_WITH_CSA
-            : GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA;
+            : (isSingleUser
+                ? GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA_SINGLE_USER
+                : GDM_USER_STACK_VERTICAL_FRACTION_NO_CSA);
         const [, , natW, natH] = box.get_preferred_size();
         box.translation_x = Math.floor(w / 2 - natW / 2) - (box.x || 0);
         box.translation_y = Math.floor(h * fraction - natH) - (box.y || 0);
@@ -108,6 +113,7 @@ export class GdmUserListManager {
 
         this.userListItemAddedId = userList.connect('item-added', () => {
             this.applyUserListWidths(targetDialog);
+            this.positionUserList();
         });
     }
 
